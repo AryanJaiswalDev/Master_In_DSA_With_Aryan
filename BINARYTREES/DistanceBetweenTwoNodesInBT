@@ -1,0 +1,25 @@
+class Solution {
+    public void dfs(Node lca,int a,int b,int level,int[]dist){
+        if(lca==null)return;
+        if(lca.data==a) dist[0]=level;
+        if(lca.data==b) dist[1]=level;
+        dfs(lca.left,a,b,level+1,dist);
+        dfs(lca.right,a,b,level+1,dist);
+        
+    }
+    public Node lca(Node root,int p,int q){
+        if(root==null) return null;
+        if(root.data==p||root.data==q) return root;
+        Node l=lca(root.left,p,q);
+        Node r=lca(root.right,p,q);
+        if(l!=null && r!=null) return root;
+        return(l==null)?r:l;
+    }
+    public int findDist(Node root, int a, int b) {
+        Node lca=lca(root,a,b);
+        int[]dist={0,0};
+        dfs(lca,a,b,0,dist);
+        return dist[0]+dist[1];
+        
+    }
+}
