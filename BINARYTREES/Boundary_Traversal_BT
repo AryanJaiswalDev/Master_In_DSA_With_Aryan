@@ -1,0 +1,33 @@
+class Solution {
+    void leftboundry(Node root,ArrayList<Integer>ans){
+        if(root==null)return;
+        if(root.left==null&&root.right==null) return;
+        ans.add(root.data);
+        if(root.left!=null) leftboundry(root.left,ans);
+        else leftboundry(root.right,ans);
+    }
+    
+    void leafboundry(Node root,ArrayList<Integer>ans){
+        if(root==null)return;
+        if(root.left==null&&root.right==null) ans.add(root.data);
+        leafboundry(root.left,ans);
+        leafboundry(root.right,ans);
+    }
+    void rightboundry(Node root,ArrayList<Integer>ans){
+        if(root==null)return ;
+        if(root.left==null&&root.right==null)return;
+        
+        if(root.right!=null) rightboundry(root.right,ans);
+        else rightboundry(root.left,ans);
+        ans.add(root.data);
+    }
+    public ArrayList<Integer> boundaryTraversal(Node root) {
+        ArrayList<Integer>ans=new ArrayList<>();
+        ans.add(root.data);
+        if(root.left==null&&root.right==null) return ans;
+        leftboundry(root.left,ans);
+        leafboundry(root,ans);
+        rightboundry(root.right,ans);
+        return ans;
+    }
+}
