@@ -1,0 +1,38 @@
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums.length==0)return 0;
+        HashSet<Integer>set=new HashSet<>();
+        for(int ele:nums){
+            set.add(ele);
+        }
+        int ans=Integer.MIN_VALUE;
+        for(int ele:set){
+            if(!(set.contains(ele-1))){
+                int current=ele;
+                int count=1;
+                while(set.contains(current+1)){
+                    count++;
+                    current=current+1;
+
+            }
+            ans=Math.max(ans,count);
+            }
+
+        }
+        return ans;
+    }
+}
+🧠 Key Insight:
+Instead of sorting the array, I used a HashSet for average O(1) lookups.
+For every number, I only start building a sequence when its previous number (num - 1) is not present in the set. 
+This ensures that each consecutive sequence is processed from its starting point and avoids unnecessary repeated work.
+
+🔍 Approach:
+Store all elements in a HashSet
+Identify the beginning of each sequence using num - 1
+Keep checking num + 1
+Count the consecutive elements
+Track the maximum length
+
+⏱️ Time Complexity: O(n) average
+💾 Space Complexity: O(n)
