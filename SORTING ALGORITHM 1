@@ -1,0 +1,52 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+
+        // finding min and max element
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < min) {
+                min = nums[i];
+            }
+
+            if (nums[i] > max) {
+                max = nums[i];
+            }
+        }
+
+        // counter array to count frequency
+        int[] counter = new int[max - min + 1];
+        int[] ans = new int[nums.length];
+
+        // counting frequency
+        for (int i = 0; i < nums.length; i++) {
+            int ele = nums[i];
+
+            // shifting negative values
+            counter[ele - min]++;
+        }
+
+        // prefix sum of counter
+        for (int i = 1; i < counter.length; i++) {
+            counter[i] += counter[i - 1];
+        }
+
+        // placing elements in correct position
+        for (int j = nums.length - 1; j >= 0; j--) {
+
+            int getEle = nums[j];
+
+            // shift index because of negative values
+            int index = getEle - min;
+
+            int getidxfromcountingprefix = counter[index];
+
+            ans[getidxfromcountingprefix - 1] = getEle;
+
+            counter[index]--;
+        }
+
+        return ans;
+    }
+}
