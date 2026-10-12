@@ -1,4 +1,4 @@
-class pair implements Comparable<pair> {
+ class pair implements Comparable<pair> {
     int val;
     int frequency;
 
