@@ -1,0 +1,128 @@
+class pair {
+    int r;
+    int c;
+
+    public pair(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+class Solution {
+    public static void bfs(int r, int c, boolean[][] vis, char[][] grid) {
+        Queue<pair> q = new LinkedList<>();
+        q.add(new pair(r, c));
+        while (q.size() > 0) {
+            pair front = q.remove();
+            int row = front.r;
+            int col = front.c;
+
+            //top
+            if (row > 0) {
+                if (vis[row - 1][col] == false && grid[row - 1][col] == '1') {
+                    q.add(new pair(row - 1, col));
+                    vis[row - 1][col] = true;
+                }
+            }
+            //bootom
+            if (row + 1 < grid.length) {
+                if (vis[row + 1][col] == false && grid[row + 1][col] == '1') {
+                    q.add(new pair(row + 1, col));
+                    vis[row + 1][col] = true;
+                }
+            }
+            //left 
+            if (col > 0) {
+                if (vis[row][col - 1] == false && grid[row][col - 1] == '1') {
+                    q.add(new pair(row, col - 1));
+                    vis[row][col - 1] = true;
+                }
+            }
+            //right 
+            if (col + 1 < grid[0].length) {
+                if (vis[row][col + 1] == false && grid[row][col + 1] == '1') {
+                    q.add(new pair(row, col + 1));
+                    vis[row][col + 1] = true;
+                }
+            }
+
+        }
+
+    }
+
+    public int numIslands(char[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        boolean[][] vis = new boolean[row][col];
+        int count = 0;
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (vis[i][j] == false && grid[i][j] == '1') {
+                    bfs(i, j, vis, grid);
+                    count++;
+                }
+
+            }
+        }
+        return count;
+    }
+}
+
+
+// Approach 
+
+intuition
+
+The grid contains two types of cells:
+
+'1' represents land.
+
+'0' represents water.
+
+An island is a group of connected land cells connected horizontally or vertically.
+
+The key observation is that all connected land cells belong to the same island. Therefore, whenever we encounter an unvisited land cell, we have discovered a new island.
+
+We use BFS to explore all land cells connected to that starting cell and mark them as visited. This ensures that the same island is not counted multiple times.
+
+Approach
+
+Create a visited matrix of the same dimensions as the grid to keep track of visited cells.
+
+Traverse the entire grid using two nested loops.
+
+Whenever we find an unvisited land cell ('1'):
+
+Increment the island count.
+
+Start BFS from that cell using a queue.
+
+During BFS:
+
+Remove a cell from the queue.
+
+Check its four adjacent cells: top, bottom, left, and right.
+
+If an adjacent cell is within the grid boundaries, contains land ('1'), and has not been visited, mark it as visited and add it to the queue.
+
+Continue until the queue becomes empty, meaning all land cells belonging to that island have been explored.
+
+Return the total island count after traversing the grid.
+
+Complexity
+
+Time complexity:
+O(m × n)
+
+Where m is the number of rows and n is the number of columns.
+
+We traverse every cell in the grid, and each land cell is added to the BFS queue at most once. Therefore, the overall time complexity is O(m × n).
+
+Space complexity:
+O(m × n)
+
+The visited matrix requires O(m × n) space. In the worst case, the BFS queue can also contain O(m × n) cells.
+
+Hence, the overall auxiliary space complexity is O(m × n).
+
