@@ -1,0 +1,45 @@
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+
+        // Step 1: Sort by starting point
+        Arrays.sort(intervals, (a, b) ->
+            Integer.compare(a[0], b[0])
+        );
+
+        List<int[]> merged = new ArrayList<>();
+
+        // Step 2: Traverse all intervals
+        for (int[] curr : intervals) {
+
+            // Step 3: Add if no overlap
+            if (merged.isEmpty() ||
+                curr[0] > merged.get(merged.size() - 1)[1]) {
+
+                merged.add(curr);
+
+            } else {
+                // Step 4: Merge overlapping intervals
+                int[] last = merged.get(merged.size() - 1);
+
+                last[1] = Math.max(last[1], curr[1]);
+            }
+        }
+
+        // Step 5: Convert list to 2D array
+        return merged.toArray(new int[merged.size()][]);
+    }
+}
+
+
+// ### Approach
+// 1. Sort intervals by their starting points.
+// 2. If the current interval starts after the last merged interval ends, add it separately.
+// 3. Otherwise, merge them by updating the last interval's end using `Math.max()`.
+// 4. Convert the list into a 2D array.
+
+// ### Complexity
+// - **Time:** `O(n log n)` — sorting dominates.
+// - **Space:** `O(n)` — storing merged intervals.
+
+// **Pattern:** Arrays + Sorting + Intervals
